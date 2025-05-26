@@ -1,0 +1,41 @@
+﻿@page
+@model SmartRide.Areas.Identity.Pages.Account.Manage.VehicleProfileModel
+@{
+    ViewData["Title"] = "Vehicle Profile";
+}
+
+<h3>@ViewData["Title"]</h3>
+<div class="row">
+    <div class="col-md-6">
+        <form id="profile-form" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.VIN" class="form-control" placeholder="Please choose your username." />
+                <label asp-for="Input.VIN" class="form-label"></label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.License" class="form-control" placeholder="Please choose your username." />
+                <label asp-for="Input.License" class="form-label"></label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Description" class="form-control" placeholder="Please choose your username." />
+                <label asp-for="Input.Description" class="form-label"></label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <select class="form-select" asp-for="Input.VehicleType" aria-label="Default select example">
+                    <option value="Car" selected>Car</option>
+                    <option value="Bike">Bike</option>
+                </select>
+            </div>
+
+            <button class="btn btn-primary" type="submit">Change Vehicle Profile</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

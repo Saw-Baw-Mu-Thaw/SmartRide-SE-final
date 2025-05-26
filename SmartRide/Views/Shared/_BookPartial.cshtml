@@ -1,0 +1,26 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    @if (User.FindFirst("Role").Value == "Customer")
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Booking" asp-action="Index" title="Manage">Book Ride</a>
+        </li>
+    }
+    else if (User.FindFirst("Role").Value == "Driver")
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Booking" asp-action="Requests">Requests</a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark">Generate Report</a>
+        </li>
+    }
+}
+

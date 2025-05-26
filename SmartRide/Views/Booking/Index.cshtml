@@ -1,0 +1,48 @@
+﻿@{
+    Layout = "_BookingLayout";
+}
+
+<p> Welcome to ride booking page</p>
+
+<p id="test"></p>
+
+<div id="map" style="height:180px"></div>
+
+<div class="col-12 border rounded m-1">
+    <div class="p-3">
+            <h2>Book a Ride</h2>
+            <p>Drag map and click <strong>Set Pickup</strong> and <strong>Set Dropoff</strong> to set pickup and dropoff</p>
+            <p>Marker will be set to center of map</p>
+            <hr>
+
+            <div class="mb-3">
+                <label class="form-label">Pickup Location</label>
+                <button class="btn btn-secondary" onclick="setPickup()">Set Pickup</button>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Dropoff Location</label>
+                <button class="btn btn-secondary" onclick="setDropoff()">Set Dropoff</button>
+            </div>
+
+            <div class="mb-3">
+                <select class="form-select" aria-label="Default select example" id="vehicleType">
+                    <option value="Car" selected>Car</option>
+                    <option value="Bike">Bike</option>
+                </select>
+            </div>
+
+        <form id="#bookingForm" asp-controller="Booking" method="post">
+            <div asp-validation-summary="All" class="text-danger" role="alert"></div>
+
+            <input hidden id="pickupLong" name="pickupLong" value="" />
+            <input hidden id="pickupLat" name="pickupLat" value="" />
+            <input hidden id="dropoffLong" name="dropoffLong" value="" />
+            <input hidden id="dropoffLat" name="dropoffLat" value="" />
+            <input hidden id="veh" name="vehicleType" value="" />
+
+            <button class="btn btn-success" type="submit">Book Ride</button>
+        </form>
+            
+    </div>
+</div>

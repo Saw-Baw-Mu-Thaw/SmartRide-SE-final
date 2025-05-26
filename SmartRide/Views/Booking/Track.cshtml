@@ -1,0 +1,20 @@
+﻿@model DriverInfo
+@{
+    Layout = "_TrackLayout";
+    ViewData["Title"] = "Track";
+}
+
+<div id="map"></div>
+
+<div class="col-12 my-1">
+    <div>
+        <p>Driver Name : @Model.Name</p>
+        <p>VIN : @Model.VIN</p>
+        <p>Car Description : @Model.Description</p>
+    </div>
+
+    <form asp-controller="Booking" asp-action="Cancel" method="post">
+        <input type="hidden" name="rideId" value="@Model.RideId" />
+        <button type="submit" class="btn btn-danger">Cancel Booking</button>
+    </form>
+</div>
