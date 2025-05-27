@@ -1,8 +1,32 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model CustInfo
 @{
-    Layout = "_Layout";
+    Layout = "_DriverTrackLayout";
+    ViewData["Title"] = "Track";
 }
+<h1>Tracking Customer</h1>
 
-<p> This is supposed to be the tracking View of the driver</p>
+<div id="map" style="height:180px"></div>
+
+<div class="col-lg-4 col-12 m-auto p-1">
+    <div class="border p-2 m-auto">
+        <p>Customer Name : @Model.customerName</p>
+        <p>Customer Phone Number : @Model.phoneNumber</p>
+        <p id="time">Time : Loading..</p>
+        <p id="distance">Distance : Loading..</p>
+        
+        <input type="hidden" id="vehicleType" value="@User.FindFirst("VehicleType")?.Value" />
+        <div>
+            <div class="m-1">
+                <button class="btn btn-primary m-1" onclick="completePickup(event)">Complete pickup</button>
+            </div>
+
+            <div class="m-1">
+                <form asp-controller="Tracking" asp-action="Complete">
+                    <input type="hidden" id="rideId" name="rideId" value="@Model.rideId" />
+                    <button type="submit" class="btn btn-danger m-1" onclick="completeDropoff(event)">Complete Ride</button>
+                </form>
+            </div>
+        </div>
+        
+    </div>
+</div>

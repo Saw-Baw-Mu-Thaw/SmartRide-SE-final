@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@model Payment
+@{
+    Layout = null;
+    ViewData["Title"] = "Payment";
+}
+
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -12,17 +18,28 @@
           crossorigin="" />
 </head>
 <body>
-    <div>
-        @RenderBody()
+    <div class="container p-2">
+        <div class="text-center border border-success rounded m-auto col-lg-4 col-12 p-3">
+            <h1><strong>SmartRide Company</strong></h1>
+            <h2>Payment Receipt</h2>
+
+            <h3>Total</h3>
+            <h3>@Model.Total.ToString() VND</h3>
+            <hr />
+            <h3>Payment Id : @Model.PaymentId</h3>
+
+            <div class="m-1">
+                <form asp-controller="Payment" asp-action="Paid" method="post">
+                    <button class="btn btn-success text-center">Pay</button>
+                </form>
+            </div>
+            
+        </div>
     </div>
+
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-            crossorigin=""></script>
-    <script src="~/lib/microsoft-signalr/signalr.js"></script>
-    <script src="~/js/track.js"></script>
 </body>
 </html>

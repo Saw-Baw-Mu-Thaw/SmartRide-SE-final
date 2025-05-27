@@ -1,11 +1,7 @@
 ﻿var map;
 
-var pickupMarker;
-var dropoffMarker;
-var pickupLat;
-var pickupLong;
-var dropoffLat;
-var dropoffLong;
+var latitude = 10.732812886889537;
+var longitude = 106.69987052679063;
 
 var test = document.getElementById('test');
 
@@ -17,8 +13,8 @@ if (navigator.geolocation) {
 
 
 function locSuccess(position) {
-    var longitude = position.coords.longitude;
-    var latitude = position.coords.latitude;
+    // longitude = position.coords.longitude;
+    // latitude = position.coords.latitude;
     //console.log("Latitude:" + latitude + "\nLongtitude:" + longitude);
     //test.innerText = "Latitude:" + latitude + "\nLongtitude:" + longitude;
 

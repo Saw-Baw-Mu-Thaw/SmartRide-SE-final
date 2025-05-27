@@ -15,18 +15,24 @@
     <h2>Requests</h2>
     @foreach (var notification in Model)
     {
-        <div class="notification">
+        <div class="notification border border-info m-1">
             <p><strong>Notification:</strong> @notification.Message</p>
-            <form asp-action="Accept" asp-controller="Booking">
-                <input type="hidden" name="RideId" value="@notification.RideId" />
-                <input type="hidden" name="notiId" value="@notification.Id" />
-                <button type="submit" class="btn btn-success">Accept Booking</button>
-            </form>
-            <form asp-action="Reject" asp-controller="Booking">
-                <input type="hidden" name="RideId" value="@notification.RideId" />
-                <input type="hidden" name="notiId" value="@notification.Id" />
-                <button type="submit" class="btn btn-danger">Reject Booking</button>
-            </form>
+            <div class="m-1">
+                <form asp-action="Accept" asp-controller="Booking">
+                    <input type="hidden" name="RideId" value="@notification.RideId" />
+                    <input type="hidden" name="notiId" value="@notification.Id" />
+                    <button type="submit" class="btn btn-success">Accept Booking</button>
+                </form>
+            </div>
+            
+            <div class="m-1">
+                <form asp-action="Reject" asp-controller="Booking">
+                    <input type="hidden" name="RideId" value="@notification.RideId" />
+                    <input type="hidden" name="notiId" value="@notification.Id" />
+                    <button type="submit" class="btn btn-danger">Reject Booking</button>
+                </form>
+            </div>
+            
         </div>
     }
 </div>

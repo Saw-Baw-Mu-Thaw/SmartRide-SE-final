@@ -3,18 +3,31 @@
     Layout = "_TrackLayout";
     ViewData["Title"] = "Track";
 }
+<h1>Tracking Driver</h1>
 
-<div id="map"></div>
+<div id="map" style="height:180px"></div>
 
-<div class="col-12 my-1">
-    <div>
+<div class="col-lg-4 col-12 m-auto p-1">
+    <div class="mx-auto">
         <p>Driver Name : @Model.Name</p>
         <p>VIN : @Model.VIN</p>
         <p>Car Description : @Model.Description</p>
+        <p id="time">Time : Loading..</p>
+        <p id="distance">Distance : Loading..</p>
     </div>
 
-    <form asp-controller="Booking" asp-action="Cancel" method="post">
-        <input type="hidden" name="rideId" value="@Model.RideId" />
-        <button type="submit" class="btn btn-danger">Cancel Booking</button>
-    </form>
+    <div class='mx-auto my-1' >
+        <form asp-controller="Booking" asp-action="Cancel" method="post">
+            <input type="hidden" id="rideId" name="rideId" value="@Model.RideId" />
+            <button type="submit" id="cancelBtn" class="btn btn-danger">Cancel Booking</button>
+        </form>
+    </div>
+
+    <div class="mx-auto my-1" >
+        <form asp-controller="Tracking" asp-action="Arrived" method="post">
+            <input type="hidden" id="rideId" name="rideId" value="@Model.RideId" />
+            <button type="submit"  id="arrivalBtn" class="btn btn-danger">Confirm Arrival</button>
+        </form>
+    </div>
+    
 </div>

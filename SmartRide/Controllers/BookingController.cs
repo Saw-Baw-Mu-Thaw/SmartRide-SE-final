@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using NuGet.Protocol.Plugins;
 using SmartRide.Data;
 using SmartRide.Models;
+using System.Reflection;
 
 namespace SmartRide.Controllers
 {
@@ -87,6 +88,19 @@ namespace SmartRide.Controllers
             context.Rides.Add(ride);
             context.SaveChanges();
 
+            var location = new Location
+            {
+                ride = ride,
+                RideId = ride.RideId,
+                PickupLat = pickupLat,
+                PickupLong = pickupLong,
+                DropoffLat = dropoffLat,
+                DropoffLong = dropoffLong,
+            };
+
+            context.Locations.Add(location);
+            context.SaveChanges();
+
             IdentityUser selectedDriver = null;
             foreach (var d in drivers)
             {
@@ -99,7 +113,7 @@ namespace SmartRide.Controllers
                 context.Notifications.Add(noti);
                 context.SaveChanges();
 
-                Thread.Sleep(30000); // Simulate waiting for driver to accept the ride
+                Thread.Sleep(10000); // Simulate waiting for driver to accept the ride
 
                 //noti = context.Notifications.First(n => n.Id == noti.Id);
                 context.Entry(noti).Reload();
@@ -125,20 +139,6 @@ namespace SmartRide.Controllers
 
             ride.DriverId = selectedDriver.Id;
             context.Rides.Update(ride);
-            context.SaveChanges();
-
-
-            var location = new Location
-            {
-                ride = ride,
-                RideId = ride.RideId,
-                PickupLat = pickupLat,
-                PickupLong = pickupLong,
-                DropoffLat = dropoffLat,
-                DropoffLong = dropoffLong,
-            };
-
-            context.Locations.Add(location);
             context.SaveChanges();
 
             var pageModel = new DriverInfo
@@ -187,6 +187,7 @@ namespace SmartRide.Controllers
             }
             ride.status = "Cancelled";
             context.Rides.Update(ride);
+            context.SaveChanges();
 
             return View("Index");
         }
@@ -208,7 +209,11 @@ namespace SmartRide.Controllers
                 context.Notifications.Update(notification);
                 context.SaveChanges();
             }
-            return RedirectToAction("Index", "Tracking");
+            var customer = context.Users.Find(ride.CustomerId);
+            var customerName = userManager.GetClaimsAsync(customer).Result
+                .FirstOrDefault(c => c.Type == "Username")?.Value ?? "Unknown";
+            var phoneNumber = customer.PhoneNumber;
+            return RedirectToAction("Index", "Tracking", new {custName = customerName, phoneNumber = phoneNumber, rideId = rideId});
         }
 
         [HttpPost]
