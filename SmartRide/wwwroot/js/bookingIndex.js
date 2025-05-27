@@ -7,29 +7,23 @@ var pickupLong;
 var dropoffLat;
 var dropoffLong;
 
-
-var test = document.getElementById('test');
-
 $('#veh').val("Car")
 
 $('#vehicleType').on('change',function (e) {
     var selectedValue = $(e.target).val();
-    console.log(selectedValue)
     $('#veh').val(selectedValue)
 })
 
 if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(locSuccess, locError);
 } else {
-    test.innerText = "Geolocation is not supported by this browser";
+    dlert("Geolocation is not supported by this browser");
 }
 
 
 function locSuccess(position) {
     var longitude = position.coords.longitude;
     var latitude = position.coords.latitude;
-    //console.log("Latitude:" + latitude + "\nLongtitude:" + longitude);
-    //test.innerText = "Latitude:" + latitude + "\nLongtitude:" + longitude;
 
     map = L.map('map').setView([latitude, longitude], 13)
 
@@ -56,8 +50,7 @@ function setPickup() {
     pickupLong = coords.lng;
     $('#pickupLong').val(pickupLong);
     $('#pickupLat').val(pickupLat);
-    console.log('Longitude : ' + coords.lng + ', Latitude : ' + coords.lat)
-    test.append('<p>Pickup Longitude : ' + coords.lng + ', Pickup Latitude : ' + coords.lat + '</p>')
+    
     pickupMarker = L.marker([coords.lat, coords.lng]).addTo(map)
     pickupMarker.bindPopup("<b>Pickup Location</b>")
 }
@@ -72,8 +65,6 @@ function setDropoff() {
     dropoffLong = coords.lng;
     $('#dropoffLong').val(dropoffLong);
     $('#dropoffLat').val(dropoffLat);
-    console.log('Longitude : ' + coords.lng + ', Latitude : ' + coords.lat)
-    test.append('<p>Dropoff Longitude : ' + coords.lng + ', Dropoff Latitude : ' + coords.lat + '</p>')
     dropoffMarker = L.marker([coords.lat, coords.lng]).addTo(map)
     dropoffMarker.bindPopup("<b>Dropoff Location</b>")
 }

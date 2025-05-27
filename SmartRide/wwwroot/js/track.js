@@ -40,9 +40,9 @@ function locError() {
 var connection = new signalR.HubConnectionBuilder().withUrl("/trackHub").build();
 
 connection.on("UpdateMap", function (response) {
-    console.log("Updating map")
+
     var res = JSON.parse(response);
-    console.log(res)
+
 
     var time = res['paths'][0]['time']
     var distance = res['paths'][0]['distance']
@@ -54,7 +54,7 @@ connection.on("UpdateMap", function (response) {
     // draw polyline on map
     var latlngs = []
     var points = res['paths'][0]['points']['coordinates']; // this is in long, lat format
-    console.log(points)
+
     // reverse points to get lat, long format
     for (var i = 0; i < points.length; i++) {
         latlngs.push([points[i][1], points[i][0]]);
@@ -73,7 +73,6 @@ connection.on("UpdateMap", function (response) {
 })
 
 connection.on("pickupComplete", function () {
-    console.log("Pickup completed");
     $('#arrivalBtn').show();
     $('#cancelBtn').hide();
 })

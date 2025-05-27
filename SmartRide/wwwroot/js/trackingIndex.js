@@ -43,25 +43,11 @@ function locError() {
 function completePickup(e) {
     finishedPickup = 1;
     $(e.target).prop("disabled", true);
-
-    interval = setTimeout(function () {
-        var driverMsg = {
-            finishedPickup: finishedPickup,
-            vehicleType: (vehicleType === "Car") ? "car" : "bike",
-            rideId: rideId,
-            longitude: longitude,
-            latitude: latitude
-        }
-        connection.invoke("SendRoute", JSON.stringify(driverMsg)).catch(function (err) {
-            return console.error(err.toString());
-        });
-    }, 10000)
 }
 
 function completeDropoff(e) {
     // todo : clear interval
     clearInterval(interval);
-    console.log("Cleared interval")
 }
 
 // connecting to signalR hub
@@ -69,9 +55,7 @@ var connection = new signalR.HubConnectionBuilder().withUrl("/trackHub").build()
 
 connection.on("UpdateMap", function (response)
 {
-    console.log("Updating map")
     var res = JSON.parse(response);
-    console.log(res)
 
     var time = res['paths'][0]['time']
     var distance = res['paths'][0]['distance']
@@ -85,26 +69,23 @@ connection.on("UpdateMap", function (response)
     // draw polyline on map
     var latlngs = []
     var points = res['paths'][0]['points']['coordinates']; // this is in long, lat format
-    //console.log(points)
+
     // reverse points to get lat, long format
     for (var i = 0; i < points.length; i++) {
         latlngs.push([points[i][1], points[i][0]]);
     }
-    //console.log(latlngs);
+
     if (polyline != null) {
         map.removeLayer(polyline);
         map.removeLayer(driverMarker);
         map.removeLayer(destMarker);
     }
 
-    //console.log('before cancel check')
+ 
     var cancelled = res['cancelled'];
-    //console.log("Is cancelled? : ", cancelled)
-    //console.log('after cancel check')
     if (cancelled) {
         alert("Ride has been cancelled by customer");
         clearInterval(interval);
-        //console.log("Cleared interval due to cancellation")
         setTimeout(function () {
             window.location.replace("/Home/Index");
         }, 3000);
@@ -121,7 +102,6 @@ connection.on("UpdateMap", function (response)
 })
 
 connection.on("pickupComplete", function () {
-    console.log("Pickup completed");
     finishedPickup = 2
 })
 
@@ -133,21 +113,7 @@ connection.start().then(function () {
 })
 
 if (interval == null) {
-    //interval = setInterval(function () {
-    //    var driverMsg = {
-    //        finishedPickup: finishedPickup,
-    //        vehicleType: (vehicleType === "Car") ? "car" : "bike",
-    //        rideId: rideId,
-    //        longitude: longitude,
-    //        latitude: latitude
-    //    }
-    //    connection.invoke("SendRoute", JSON.stringify(driverMsg)).catch(function (err) {
-    //        return console.error(err.toString());
-    //    });
-    //}, 10000);
-
-    // for testing
-    interval = setTimeout(function () {
+    interval = setInterval(function () {
         var driverMsg = {
             finishedPickup: finishedPickup,
             vehicleType: (vehicleType === "Car") ? "car" : "bike",
@@ -158,8 +124,7 @@ if (interval == null) {
         connection.invoke("SendRoute", JSON.stringify(driverMsg)).catch(function (err) {
             return console.error(err.toString());
         });
-    }, 10000)
-
+    }, 10000);
     // timer is set to 10 seconds because both customer and driver should be in track view
 }
 
