@@ -38,6 +38,10 @@ namespace SmartRide.Controllers
         [HttpPost]
         public IActionResult Arrived(int rideId)
         {
+            var ride = context.Rides.Find(rideId);
+            ride.DropOffTime = DateTime.Now;
+            context.Rides.Update(ride);
+            context.SaveChanges();
             return RedirectToAction("Index", "Payment", new { rideId = rideId});
         }
     }
